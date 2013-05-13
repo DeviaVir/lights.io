@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var http    = require('http'),
+    path    = require('path'),
+    colour  = '#f4f4f4';
+  //io      = require('socket.io');
+
+var port = 8080;
+   io = require('socket.io').listen(port);
+
+//Socket.io emits this event when a connection is made.
+io.sockets.on('connection', function (socket) {
+
+  // Emit a message to send it to the client.
+  socket.emit('colour', { colour: colour });
+
+  // Print messages from the client.
+  socket.on('changed', function (data) {
+    if( data ) {
+      data = JSON.parse( data );
+      if( data && data[ 'colour' ] ) {
+        socket.broadcast.emit( 'colour', { colour: data[ 'colour' ] } );
+        colour = data[ 'colour' ];
+      }
+    }
+  });
+
+  socket.on('authorize', function(data) {
+    console.log( data );
+  })
+
+});
