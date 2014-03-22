@@ -23,18 +23,21 @@
           -ms-transition: all 0.2s ease-in-out;
         }
       </style>
-      <script src="http://node.crowdlighting.com:8080/socket.io/socket.io.js"></script>
+      <script src="http://node.crowdlighting.com:8080/primus/primus.js"></script>
     </head>
     <body>
       <div id="container"><br><br><br></div>
       <script type="text/javascript">
       window.onload = function () {
-        // Connect to socket.io
-        var socket = io.connect( 'http://node.crowdlighting.com:8080/' );
+        // Connect to primus
+        var primus = Primus.connect('http://node.crowdlighting.com:8080/');
+
         // React to a received message
-        socket.on('colour', function (data) {        
-          // Modify the DOM to show the message
-          document.getElementById("container").style.backgroundColor = data.colour;
+        primus.on('data', function message(data) {
+          console.log('New message received: ', data)
+          if('colour' in data) {
+            document.getElementById("container").style.backgroundColor = data.colour;
+          }
         });
       };
       </script>
