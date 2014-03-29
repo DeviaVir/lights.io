@@ -34,6 +34,16 @@ var primus = Primus.connect('http://node.crowdlighting.com:8080/'),
 		}
 	};
 
+$(".picker").spectrum({
+    color: "#f4f4f4",
+    change: function(color) {
+        app.colour('#' + color.toHex());
+    },
+    move: function (color) {
+        app.colour('#' + color.toHex());
+    }
+});
+
 $( function() {
 	$( '#colour' ).bind( 'blur', function() {
 		app.colour( $( this ).val() );
