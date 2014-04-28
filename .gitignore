@@ -2,7 +2,7 @@ node/node_modules
 node/sftp-config.json
 
 public_html/sftp-config.json
-
+public_html/admin/node_modules
 *.scssc
 
 *.sassc
